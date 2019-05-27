@@ -91,7 +91,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-    this.newCard = this.newCard.bind(this);
+    this.onClickNewCard = this.onClickNewCard.bind(this);
     this.state = {
       guesses: resetGuesses(),
       action: 'newGame',
@@ -102,7 +102,7 @@ class Game extends React.Component {
     return this.props.flashcard.multipleChoices[i].correct;
   }
 
-  newCard() {
+  onClickNewCard() {
     this.props.onClickNextCard();
     this.setState(state => {
       return {
@@ -138,12 +138,12 @@ class Game extends React.Component {
         window = <WinningCard 
           image={this.props.flashcard.image}
           name={'foo name'}
-          onClick={this.newCard} 
+          onClick={this.onClickNewCard} 
         />;
         break;
 
       default:
-        window = <NewGameCard onClick={this.newCard} />
+        window = <NewGameCard onClick={this.onClickNewCard} />
         break;
     }
     
