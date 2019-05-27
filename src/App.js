@@ -11,7 +11,7 @@ import {
 function NewGameCard(props) {
   return (
     <Box px={3}>
-      <Image src='/fadedSquare.png' />
+      <Image src= {process.env.PUBLIC_URL + '/fadedSquare.png'} />
       <Button onClick={() => props.onClick()}>Begin</Button>
     </Box>
   );

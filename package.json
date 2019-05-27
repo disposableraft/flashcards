@@ -1,6 +1,6 @@
 {
   "name": "flashcards",
-  "homepage": "https://disposableraft.github.io/flashcards/",
+  "homepage": "https://disposableraft.github.io/flashcards",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
