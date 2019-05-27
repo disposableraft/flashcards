@@ -30,7 +30,7 @@ function WinningCard(props) {
 
   return (
     <Box px={3}>
-      <Image src={props.flashcard.image} />
+      <Image src={process.env.PUBLIC_URL + props.flashcard.image} />
       <Heading as='h3'>Correct!</Heading>
       <Text>
         <p>Yes, the answer is <strong>{name}</strong></p>
