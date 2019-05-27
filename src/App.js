@@ -24,7 +24,6 @@ function findAnswer(multipleChoices) {
   });
 }
 
-// Empty card displays when there's no card in place
 function WinningCard(props) {
   const name = findAnswer(props.flashcard.multipleChoices).name;
   return (
@@ -37,8 +36,6 @@ function WinningCard(props) {
   );
 }
 
-// Renders choice buttons
-// Marks a choice if it's incorrect
 function FlashCard(props) {
   return (
     <Box px={3}>
@@ -62,7 +59,6 @@ function FlashCard(props) {
   }
 }
 
-// Renders a choice button
 function ChoiceButton(props) {
   const backgroundColor = props.guessIsIncorrect ? {backgroundColor: 'red'} : null;
   return (
@@ -75,8 +71,6 @@ function ChoiceButton(props) {
   );
 }
 
-// GameBox has no logic.
-// It just has style.
 function GameBox(props) {
   return (
     <Box width={450}>
@@ -90,10 +84,6 @@ function GameBox(props) {
   );
 }
 
-// Game controls ...
-// 1. Handles clicks of multiple choices
-// 2. Keeps track of the card index
-// 3. Keeps track of if the player is winning
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -119,8 +109,6 @@ class Game extends React.Component {
     });
   }
 
-  // handleClick sets the state when the player is winning
-  // It sets the state for an option when it's been guessed
   handleClick(i) {
     this.setState(state => {
       state.guesses[i] = 'guessed';
@@ -137,7 +125,7 @@ class Game extends React.Component {
         window = <FlashCard
           card={this.props.flashcard}
           onClick={this.handleClick}
-          {...this.state}
+          guesses={this.state.guesses}
         />
         break;
       
@@ -161,8 +149,6 @@ class Game extends React.Component {
   }
 }
 
-// App gets data from the api
-// App switches window views
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -184,7 +170,6 @@ class App extends React.Component {
     return (
       <Game
         flashcard={apiData().flashcards[this.state.currentCard]}
-        flashcards={apiData().flashcards}
         onClickNextCard={this.handleNextCard}
       />
     );
