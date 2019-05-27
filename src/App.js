@@ -93,18 +93,13 @@ class Game extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.newCard = this.newCard.bind(this);
     this.state = {
-      currentCardIndex: -1,
       guesses: resetGuesses(),
       action: 'newGame',
     };
   }
 
-  _getCurrentCard() {
-    return this.props.flashcards[this.state.currentCardIndex];
-  }
-
   _isWinning(i) {
-    return this._getCurrentCard(i).multipleChoices[i].correct;
+    return this.props.flashcard.multipleChoices[i].correct;
   }
 
   newCard() {
@@ -112,7 +107,6 @@ class Game extends React.Component {
     this.setState(state => {
       return {
         action: 'playing',
-        currentCardIndex: state.currentCardIndex + 1,
         guesses: resetGuesses(),
       };
     });
@@ -134,7 +128,7 @@ class Game extends React.Component {
     switch (this.state.action) {
       case 'playing':
         window = <FlashCard
-          card={this._getCurrentCard()}
+          card={this.props.flashcard}
           onClick={this.handleClick}
           {...this.state}
         />
@@ -142,8 +136,8 @@ class Game extends React.Component {
       
       case 'winning':
         window = <WinningCard 
-          image={this._getCurrentCard().image}
-          name={this._getCurrentCard().multipleChoices[this.state.currentCardIndex].name}
+          image={this.props.flashcard.image}
+          name={'foo name'}
           onClick={this.newCard} 
         />;
         break;
@@ -182,7 +176,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <Game 
+      <Game
+        flashcard={apiData().flashcards[this.state.currentCard]}
         flashcards={apiData().flashcards}
         onClickNextCard={this.handleNextCard}
       />
