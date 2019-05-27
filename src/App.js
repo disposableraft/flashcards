@@ -43,7 +43,7 @@ function WinningCard(props) {
 function FlashCard(props) {
   return (
     <Box px={3}>
-      <Image src={props.card.image} />
+      <Image src={process.env.PUBLIC_URL + props.card.image} />
       <div>{renderChoice(0)}</div>
       <div>{renderChoice(1)}</div>
       <div>{renderChoice(2)}</div>
