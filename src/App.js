@@ -18,13 +18,20 @@ function NewGameCard(props) {
   );
 }
 
+function findAnswer(multipleChoices) {
+  return multipleChoices.find(choice => {
+    return choice.correct;
+  });
+}
+
 // Empty card displays when there's no card in place
 function WinningCard(props) {
+  const name = findAnswer(props.flashcard.multipleChoices).name;
   return (
     <Box px={3}>
     <Heading as='h3'>Winning!</Heading>
-      <Image src={props.image} width={200} />
-      <Text>The answer was {props.name}</Text>
+      <Image src={props.flashcard.image} width={200} />
+      <Text>The answer was {name}</Text>
       <Button onClick={() => props.onClick()}>New Card</Button>
     </Box>
   );
@@ -136,8 +143,7 @@ class Game extends React.Component {
       
       case 'winning':
         window = <WinningCard 
-          image={this.props.flashcard.image}
-          name={'foo name'}
+          flashcard={this.props.flashcard}
           onClick={this.onClickNewCard} 
         />;
         break;
