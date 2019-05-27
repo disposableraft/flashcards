@@ -18,18 +18,12 @@ function NewGameCard(props) {
   );
 }
 
-function findAnswer(multipleChoices) {
-  return multipleChoices.find(choice => {
-    return choice.correct;
-  });
-}
-
 function WinningCard(props) {
   const name = findAnswer(props.flashcard.multipleChoices).name;
 
   const action = () => {
     if (props.isLastCard) {
-      return <p>"Congratulations, you've Won!"</p>;
+      return <p>"Congratulations, you win!"</p>;
     } else {
       return <Button onClick={() => props.onClick()}>New Card</Button>;
     }
@@ -57,12 +51,12 @@ function FlashCard(props) {
   );
 
   function renderChoice(i) {
-    const guess = props.guesses[i];
+    const guessed = props.guesses[i];
     return (
       <ChoiceButton
         choice={props.card.multipleChoices[i]}
         onClick={() => props.onClick(i)}
-        guessIsIncorrect={guess ? 'incorrect' : null}
+        guessIsIncorrect={guessed ? 'incorrect' : null}
       />
     );
   }
@@ -80,7 +74,7 @@ function ChoiceButton(props) {
   );
 }
 
-function GameBox(props) {
+function GameWrapper(props) {
   return (
     <Box width={450}>
       <Card
@@ -96,8 +90,8 @@ function GameBox(props) {
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.onClickNewCard = this.onClickNewCard.bind(this);
+    this.handleGuess = this.handleGuess.bind(this);
+    this.handleNewCard = this.handleNewCard.bind(this);
     this.state = {
       guesses: resetGuesses(),
       action: 'newGame',
@@ -108,7 +102,7 @@ class Game extends React.Component {
     return this.props.flashcard.multipleChoices[i].correct;
   }
 
-  onClickNewCard() {
+  handleNewCard() {
     this.props.advanceToNextCard();
     this.setState(state => {
       return {
@@ -118,7 +112,7 @@ class Game extends React.Component {
     });
   }
 
-  handleClick(i) {
+  handleGuess(i) {
     this.setState(state => {
       state.guesses[i] = 'guessed';
       state.action = this._isWinning(i) ? 'winning' : state.action;
@@ -127,34 +121,34 @@ class Game extends React.Component {
   }
 
   render() {
-    let window;
+    let gameScreen;
 
     switch (this.state.action) {
       case 'playing':
-        window = <FlashCard
+        gameScreen = <FlashCard
           card={this.props.flashcard}
-          onClick={this.handleClick}
+          onClick={this.handleGuess}
           guesses={this.state.guesses}
         />
         break;
 
       case 'winning':
-        window = <WinningCard
+        gameScreen = <WinningCard
           flashcard={this.props.flashcard}
           isLastCard={this.props.isLastCard}
-          onClick={this.onClickNewCard}
+          onClick={this.handleNewCard}
         />;
         break;
 
       default:
-        window = <NewGameCard onClick={this.onClickNewCard} />
+        gameScreen = <NewGameCard onClick={this.handleNewCard} />
         break;
     }
 
     return (
-      <GameBox>
-        {window}
-      </GameBox>
+      <GameWrapper>
+        {gameScreen}
+      </GameWrapper>
     );
   }
 }
@@ -191,6 +185,12 @@ class App extends React.Component {
 
 function resetGuesses() {
   return Array(3).fill(null);
+}
+
+function findAnswer(multipleChoices) {
+  return multipleChoices.find(choice => {
+    return choice.correct;
+  });
 }
 
 function apiData() {
