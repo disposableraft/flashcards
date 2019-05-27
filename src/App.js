@@ -26,12 +26,21 @@ function findAnswer(multipleChoices) {
 
 function WinningCard(props) {
   const name = findAnswer(props.flashcard.multipleChoices).name;
+
+  const action = () => {
+    if (props.isLastCard) {
+      return <p>"Congratulations, you've Won!"</p>;
+    } else {
+      return <Button onClick={() => props.onClick()}>New Card</Button>;
+    }
+  };
+
   return (
     <Box px={3}>
     <Heading as='h3'>Winning!</Heading>
       <Image src={props.flashcard.image} width={200} />
       <Text>The answer was {name}</Text>
-      <Button onClick={() => props.onClick()}>New Card</Button>
+      {action()}
     </Box>
   );
 }
@@ -46,7 +55,7 @@ function FlashCard(props) {
       <div>{renderChoice(2)}</div>
     </Box>
   );
-  
+
   function renderChoice(i) {
     const guess = props.guesses[i];
     return (
@@ -62,8 +71,8 @@ function FlashCard(props) {
 function ChoiceButton(props) {
   const backgroundColor = props.guessIsIncorrect ? {backgroundColor: 'red'} : null;
   return (
-    <Button 
-      fontSize='2' 
+    <Button
+      fontSize='2'
       style={backgroundColor}
       onClick={props.onClick} >
       {props.choice.name}
@@ -100,7 +109,7 @@ class Game extends React.Component {
   }
 
   onClickNewCard() {
-    this.props.onClickNextCard();
+    this.props.advanceToNextCard();
     this.setState(state => {
       return {
         action: 'playing',
@@ -128,11 +137,12 @@ class Game extends React.Component {
           guesses={this.state.guesses}
         />
         break;
-      
+
       case 'winning':
-        window = <WinningCard 
+        window = <WinningCard
           flashcard={this.props.flashcard}
-          onClick={this.onClickNewCard} 
+          isLastCard={this.props.isLastCard}
+          onClick={this.onClickNewCard}
         />;
         break;
 
@@ -140,7 +150,7 @@ class Game extends React.Component {
         window = <NewGameCard onClick={this.onClickNewCard} />
         break;
     }
-    
+
     return (
       <GameBox>
         {window}
@@ -152,16 +162,18 @@ class Game extends React.Component {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.handleNextCard = this.handleNextCard.bind(this);
+    this.handleAdvanceToNextCard = this.handleAdvanceToNextCard.bind(this);
     this.state = {
-      currentCard: -1,
+      currentCard: NaN,
+      isLastCard: false,
     };
   }
 
-  handleNextCard() {
+  handleAdvanceToNextCard() {
     this.setState(state => {
       return {
-        currentCard: state.currentCard + 1
+        currentCard: isNaN(state.currentCard) ? 0 : state.currentCard + 1,
+        isLastCard: (apiData().flashcards.length - 2) === state.currentCard,
       };
     });
   }
@@ -170,7 +182,8 @@ class App extends React.Component {
     return (
       <Game
         flashcard={apiData().flashcards[this.state.currentCard]}
-        onClickNextCard={this.handleNextCard}
+        advanceToNextCard={this.handleAdvanceToNextCard}
+        isLastCard={this.state.isLastCard}
       />
     );
   }
