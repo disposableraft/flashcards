@@ -23,17 +23,19 @@ function WinningCard(props) {
 
   const action = () => {
     if (props.isLastCard) {
-      return <p>"Congratulations, you win!"</p>;
+      return <p>You guessed X out of X</p>;
     } else {
-      return <Button onClick={() => props.onClick()}>New Card</Button>;
+      return <Button onClick={() => props.onClick()}>Next</Button>;
     }
   };
 
   return (
     <Box px={3}>
-    <Heading as='h3'>Winning!</Heading>
-      <Image src={props.flashcard.image} width={200} />
-      <Text>The answer was {name}</Text>
+      <Image src={props.flashcard.image} />
+      <Heading as='h3'>Correct!</Heading>
+      <Text>
+        <p>Yes, the answer is <strong>{name}</strong></p>
+      </Text>
       {action()}
     </Box>
   );
@@ -42,7 +44,6 @@ function WinningCard(props) {
 function FlashCard(props) {
   return (
     <Box px={3}>
-      <Heading as='h3'>Name that specimen:</Heading>
       <Image src={props.card.image} />
       <div>{renderChoice(0)}</div>
       <div>{renderChoice(1)}</div>
@@ -205,19 +206,19 @@ function apiData() {
         ],
       },
       {
-        image: '/cards/IMG_8596.jpg',
+        image: '/cards/IMG_8607.jpg',
         multipleChoices: [
-          {name: 'Cantharellus cibarius', correct: true},
+          {name: 'Gaulteria Shallon', correct: true},
           {name: 'Boletus edulis', correct: false},
           {name: 'Morchella esculenta', correct: false},
         ],
       },
       {
-        image: '/cards/IMG_8621.jpg',
+        image: '/cards/IMG_8625.jpg',
         multipleChoices: [
           {name: 'Agaricus campestris', correct: false},
           {name: 'Ganoderma applanatum', correct: false},
-          {name: 'Amanita pantherina', correct: true},
+          {name: 'Dicentra formosa', correct: true},
         ],
       },
     ],
