@@ -6,9 +6,193 @@ import {
   Card,
   Image,
   Heading,
-  Link,
   Text,
 } from 'rebass';
+
+function NewGameCard(props) {
+  return (
+    <Box px={3}>
+      <Image src='/fadedSquare.png' />
+      <Button onClick={() => props.onClick()}>Begin</Button>
+    </Box>
+  );
+}
+
+// Empty card displays when there's no card in place
+function WinningCard(props) {
+  return (
+    <Box px={3}>
+    <Heading as='h3'>Winning!</Heading>
+      <Image src={props.image} width={200} />
+      <Text>The answer was {props.name}</Text>
+      <Button onClick={() => props.onClick()}>New Card</Button>
+    </Box>
+  );
+}
+
+// Renders choice buttons
+// Marks a choice if it's incorrect
+function FlashCard(props) {
+  return (
+    <Box px={3}>
+      <Heading as='h3'>Name that specimen:</Heading>
+      <Image src={props.card.image} />
+      <div>{renderChoice(0)}</div>
+      <div>{renderChoice(1)}</div>
+      <div>{renderChoice(2)}</div>
+    </Box>
+  );
+  
+  function renderChoice(i) {
+    const guess = props.guesses[i];
+    return (
+      <ChoiceButton
+        choice={props.card.multipleChoices[i]}
+        onClick={() => props.onClick(i)}
+        guessIsIncorrect={guess ? 'incorrect' : null}
+      />
+    );
+  }
+}
+
+// Renders a choice button
+function ChoiceButton(props) {
+  const backgroundColor = props.guessIsIncorrect ? {backgroundColor: 'red'} : null;
+  return (
+    <Button 
+      fontSize='2' 
+      style={backgroundColor}
+      onClick={props.onClick} >
+      {props.choice.name}
+    </Button>
+  );
+}
+
+// GameBox has no logic.
+// It just has style.
+function GameBox(props) {
+  return (
+    <Box width={450}>
+      <Card
+        p={1}
+        borderRadius={2}
+        boxShadow='0 0 16px rgba(0, 0, 0, .25)'>
+        {props.children}
+      </Card>
+    </Box>
+  );
+}
+
+// Game controls ...
+// 1. Handles clicks of multiple choices
+// 2. Keeps track of the card index
+// 3. Keeps track of if the player is winning
+class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.newCard = this.newCard.bind(this);
+    this.state = {
+      currentCardIndex: -1,
+      guesses: resetGuesses(),
+      action: 'newGame',
+    };
+  }
+
+  _getCurrentCard() {
+    return this.props.flashcards[this.state.currentCardIndex];
+  }
+
+  _isWinning(i) {
+    return this._getCurrentCard(i).multipleChoices[i].correct;
+  }
+
+  newCard() {
+    this.props.onClickNextCard();
+    this.setState(state => {
+      return {
+        action: 'playing',
+        currentCardIndex: state.currentCardIndex + 1,
+        guesses: resetGuesses(),
+      };
+    });
+  }
+
+  // handleClick sets the state when the player is winning
+  // It sets the state for an option when it's been guessed
+  handleClick(i) {
+    this.setState(state => {
+      state.guesses[i] = 'guessed';
+      state.action = this._isWinning(i) ? 'winning' : state.action;
+      return state;
+    });
+  }
+
+  render() {
+    let window;
+
+    switch (this.state.action) {
+      case 'playing':
+        window = <FlashCard
+          card={this._getCurrentCard()}
+          onClick={this.handleClick}
+          {...this.state}
+        />
+        break;
+      
+      case 'winning':
+        window = <WinningCard 
+          image={this._getCurrentCard().image}
+          name={this._getCurrentCard().multipleChoices[this.state.currentCardIndex].name}
+          onClick={this.newCard} 
+        />;
+        break;
+
+      default:
+        window = <NewGameCard onClick={this.newCard} />
+        break;
+    }
+    
+    return (
+      <GameBox>
+        {window}
+      </GameBox>
+    );
+  }
+}
+
+// App gets data from the api
+// App switches window views
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleNextCard = this.handleNextCard.bind(this);
+    this.state = {
+      currentCard: -1,
+    };
+  }
+
+  handleNextCard() {
+    this.setState(state => {
+      return {
+        currentCard: state.currentCard + 1
+      };
+    });
+  }
+
+  render() {
+    return (
+      <Game 
+        flashcards={apiData().flashcards}
+        onClickNextCard={this.handleNextCard}
+      />
+    );
+  }
+}
+
+function resetGuesses() {
+  return Array(3).fill(null);
+}
 
 function apiData() {
   return {
@@ -39,164 +223,6 @@ function apiData() {
       },
     ],
   };
-}
-
-function Choice(props) {
-    return (
-      <Text fontSize='2' className={props.className}>
-        <Link
-          onClick={props.onClick}
-        > {props.choice.name}
-        </Link>
-      </Text>
-    );
-}
-
-class FlashCard extends React.Component {
-  renderChoice(i) {
-    const choice = this.props.card.multipleChoices[i];
-    let status;
-    if (this.props.guesses[i]) {
-      status = choice.correct ? 'correct' : 'incorrect';
-    } else {
-      status = null;
-    }
-
-    return (
-      <Choice
-        choice={choice}
-        onClick={() => this.props.onClick(i)}
-        className={status}
-      />
-    );
-  }
-
-  render() {
-    return (
-      <Box px={3}>
-        <Heading as='h3'>Name that specimen:</Heading>
-        <Image src={this.props.card.image} />
-        {this.renderChoice(0)}
-        {this.renderChoice(1)}
-        {this.renderChoice(2)}
-      </Box>
-    );
-  }
-}
-
-class EmptyCard extends React.Component {
-  render() {
-    return (
-      <Box px={3}>
-        <Image src='/fadedSquare.png' />
-        {this.props.children}
-      </Box>
-    );
-  }
-}
-
-class GameScreen extends React.Component {
-  render() {
-    return (
-      <Box width={450}>
-        <Card
-          p={1}
-          borderRadius={2}
-          boxShadow='0 0 16px rgba(0, 0, 0, .25)'>
-          {this.props.children}
-        </Card>
-      </Box>
-    )
-  }
-}
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.state = {
-      currentCardIndex: -1,
-      guesses: resetGuesses(),
-      action: null,
-    };
-  }
-
-  _getCurrentCard(i) {
-    return apiData().flashcards[this.state.currentCardIndex];
-  }
-
-  _isWinning(i) {
-    const currentCard = this._getCurrentCard(i)
-    return currentCard.multipleChoices[i].correct;
-  }
-
-  newQuiz() {
-    this.setState(state => {
-      return {
-        currentCardIndex: state.currentCardIndex + 1,
-        action: 'playing',
-      };
-    });
-  }
-
-  handleClick(i) {
-    if (this._isWinning(i)) {
-      this.setState(state => {
-        return {
-          currentCardIndex: state.currentCardIndex,
-          guesses: resetGuesses(),
-          action: 'winning',
-        }
-      });
-    } else {
-      this.setState(state => {
-        state.guesses[i] = true;
-        return state;
-      });
-    }
-  }
-
-  render() {
-    const playing = <FlashCard
-      card={apiData().flashcards[this.state.currentCardIndex]}
-      onClick={this.handleClick}
-      {...this.state}
-    />
-
-    const winning = <EmptyCard>
-      <Button onClick={() => this.newQuiz()}>Next Quiz</Button>
-      </EmptyCard>
-
-    const newGame = <EmptyCard>
-      <Button onClick={() => this.newQuiz()}>New Game</Button>
-      </EmptyCard>
-
-    let window;
-
-    switch (this.state.action) {
-      case 'playing':
-        window = playing
-        break;
-      
-      case 'winning':
-        window = winning;
-        break;
-
-      default:
-        window = newGame;
-        break;
-    }
-    
-    return (
-      <GameScreen>
-        {window}
-      </GameScreen>
-    );
-  }
-}
-
-function resetGuesses() {
-  return Array(3).fill(false);
 }
 
 export default App;
