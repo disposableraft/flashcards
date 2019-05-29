@@ -10,9 +10,13 @@ import {
 
 function NewGameCard(props) {
   return (
-    <Box px={3}>
+    <Box px={3} py={3}>
       <Image src= {process.env.PUBLIC_URL + '/fadedSquare.png'} />
-      <Button onClick={() => props.onClick()}>Begin</Button>
+      <Button 
+        mt={2}
+        onClick={() => props.onClick()} >
+        Begin
+      </Button>
     </Box>
   );
 }
@@ -29,7 +33,7 @@ function WinningCard(props) {
   };
 
   return (
-    <Box px={3}>
+    <Box px={3} py={3}>
       <Image src={process.env.PUBLIC_URL + props.flashcard.image} />
       <Heading as='h3'>Correct!</Heading>
       <Text>
@@ -42,7 +46,7 @@ function WinningCard(props) {
 
 function FlashCard(props) {
   return (
-    <Box px={3}>
+    <Box px={3} py={3}>
       <Image src={process.env.PUBLIC_URL + props.card.image} />
       <div>{renderChoice(0)}</div>
       <div>{renderChoice(1)}</div>
@@ -66,6 +70,7 @@ function ChoiceButton(props) {
   const backgroundColor = props.guessIsIncorrect ? {backgroundColor: 'red'} : null;
   return (
     <Button
+      mt={2}
       fontSize='2'
       style={backgroundColor}
       onClick={props.onClick} >
@@ -76,7 +81,7 @@ function ChoiceButton(props) {
 
 function GameWrapper(props) {
   return (
-    <Box width={450}>
+    <Box width={[1, 1, 500]}>
       <Card
         p={1}
         borderRadius={2}
