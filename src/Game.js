@@ -8,7 +8,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.handleAdvanceToNextCard = this.handleAdvanceToNextCard.bind(this);
-    this.handleAddPoint = this.handleAddPoint.bind(this);
+    this.addPoint = this.addPoint.bind(this);
     this.handleMakeAGuess = this.handleMakeAGuess.bind(this);
     this.state = {
       correctIndex: rNumber(3),
@@ -28,7 +28,7 @@ class Game extends React.Component {
   handleMakeAGuess(index) {
     const winningAnswer = index === this.state.correctIndex;
     if (winningAnswer) {
-      this.handleAddPoint();
+      this.addPoint();
     } else {
       this.setState(state => {
         return state.guessed[index] = true;
@@ -47,7 +47,7 @@ class Game extends React.Component {
     });
   }
 
-  handleAddPoint() {
+  addPoint() {
     const boolean = this.haveTheyGuessed()
     this.setState(state => {
       return {
@@ -57,20 +57,22 @@ class Game extends React.Component {
     });
   }
 
+  calculateScore() {
+    return `${this.state.points} / ${(this.state.startSliceAt / 3) + 1}`;
+  }
+
   render() {
-    const { startSliceAt, points } = this.state;
-    const score = `${points} / ${(startSliceAt / 3) + 1}`;
+    const { startSliceAt } = this.state;
 
     const multipleChoices = datafile.slice(startSliceAt, startSliceAt + 3);
 
     return (
       <div>
         <FlashCard
-          multipleChoices={multipleChoices}
           advanceToNextCard={this.handleAdvanceToNextCard}
-          addPoint={this.handleAddPoint}
-          score={score}
           handleMakeAGuess={this.handleMakeAGuess}
+          multipleChoices={multipleChoices}
+          score={this.calculateScore()}
           {...this.state}
         />
       </div>
