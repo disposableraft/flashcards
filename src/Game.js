@@ -1,5 +1,6 @@
 import React from 'react';
 import FlashCard from './FlashCard';
+import datafile from './data.json';
 
 class Game extends React.Component {
   constructor(props) {
@@ -31,9 +32,13 @@ class Game extends React.Component {
   render() {
     const { startSliceAt, points } = this.state;
     const score = `${points} / ${(startSliceAt / 3) + 1}`;
+
+    const multipleChoices = datafile.slice(startSliceAt, startSliceAt + 3);
+
     return (
       <div>
         <FlashCard
+          multipleChoices={multipleChoices}
           startSliceAt={startSliceAt}
           advanceToNextCard={this.handleAdvanceToNextCard}
           addPoint={this.handleAddPoint}
