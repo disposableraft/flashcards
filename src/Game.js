@@ -8,7 +8,6 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.handleAdvanceToNextCard = this.handleAdvanceToNextCard.bind(this);
-    this.addPoint = this.addPoint.bind(this);
     this.handleMakeAGuess = this.handleMakeAGuess.bind(this);
     this.state = {
       correctIndex: rNumber(3),
