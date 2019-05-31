@@ -9,11 +9,30 @@ class Game extends React.Component {
     super(props);
     this.handleAdvanceToNextCard = this.handleAdvanceToNextCard.bind(this);
     this.handleAddPoint = this.handleAddPoint.bind(this);
+    this.handleMakeAGuess = this.handleMakeAGuess.bind(this);
     this.state = {
       correctIndex: rNumber(3),
       startSliceAt: 0,
       points: 0,
       gameState: 'playing',
+      guessed: Array(3).fill(false),
+    }
+  }
+
+  haveTheyGuessed() {
+    return this.state.guessed.find(i => {
+      return i === true;
+    });
+  }
+
+  handleMakeAGuess(index) {
+    const winningAnswer = index === this.state.correctIndex;
+    if (winningAnswer) {
+      this.handleAddPoint();
+    } else {
+      this.setState(state => {
+        return state.guessed[index] = true;
+      });
     }
   }
 
@@ -23,11 +42,13 @@ class Game extends React.Component {
         startSliceAt: state.startSliceAt + 3,
         correctIndex: rNumber(3),
         gameState: 'playing',
+        guessed: Array(3).fill(false),
       };
     });
   }
 
-  handleAddPoint(boolean) {
+  handleAddPoint() {
+    const boolean = this.haveTheyGuessed()
     this.setState(state => {
       return {
         gameState: 'next',
@@ -49,6 +70,7 @@ class Game extends React.Component {
           advanceToNextCard={this.handleAdvanceToNextCard}
           addPoint={this.handleAddPoint}
           score={score}
+          handleMakeAGuess={this.handleMakeAGuess}
           {...this.state}
         />
       </div>
