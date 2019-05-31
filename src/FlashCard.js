@@ -5,7 +5,6 @@ class FlashCard extends React.Component {
     super(props);
     this.state = {
       guessed: Array(3).fill(false),
-      gameState: 'playing',
     }
   }
 
@@ -17,11 +16,6 @@ class FlashCard extends React.Component {
 
   handleOnClick(i) {
     if (i === this.props.correctIndex) {
-      this.setState(state => {
-        return {
-          gameState: 'next'
-        };
-      });
       this.props.addPoint(this.haveTheyGuessed());
     } else {
       this.setState(state => {
@@ -34,7 +28,6 @@ class FlashCard extends React.Component {
     this.setState(state => {
       return {
         guessed: Array(3).fill(false),
-        gameState: 'playing'
       };
     });
 
@@ -42,8 +35,8 @@ class FlashCard extends React.Component {
   }
 
   render() {
-    const { guessed, gameState } = this.state;
-    const { correctIndex } = this.props;
+    const { guessed } = this.state;
+    const { correctIndex, gameState } = this.props;
     const options = this.props.multipleChoices;
 
     switch (gameState) {

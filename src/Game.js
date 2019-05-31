@@ -13,6 +13,7 @@ class Game extends React.Component {
       correctIndex: rNumber(3),
       startSliceAt: 0,
       points: 0,
+      gameState: 'playing',
     }
   }
 
@@ -21,6 +22,7 @@ class Game extends React.Component {
       return {
         startSliceAt: state.startSliceAt + 3,
         correctIndex: rNumber(3),
+        gameState: 'playing',
       };
     });
   }
@@ -28,6 +30,7 @@ class Game extends React.Component {
   handleAddPoint(boolean) {
     this.setState(state => {
       return {
+        gameState: 'next',
         points: boolean ? state.points : (state.points + 1),
       };
     });
