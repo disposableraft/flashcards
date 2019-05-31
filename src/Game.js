@@ -21,10 +21,10 @@ class Game extends React.Component {
     });
   }
 
-  handleAddPoint(hasGuesses) {
+  handleAddPoint(boolean) {
     this.setState(state => {
       return {
-        points: hasGuesses ? state.points : (state.points + 1),
+        points: boolean ? state.points : (state.points + 1),
       };
     });
   }
@@ -39,7 +39,6 @@ class Game extends React.Component {
       <div>
         <FlashCard
           multipleChoices={multipleChoices}
-          startSliceAt={startSliceAt}
           advanceToNextCard={this.handleAdvanceToNextCard}
           addPoint={this.handleAddPoint}
           score={score}
