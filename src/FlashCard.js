@@ -61,7 +61,7 @@ class FlashCard extends React.Component {
           <div>
             <p><img src={options[correctIndex].image + '?width=500'} alt='What is this mushroom?' /></p>
             <p>Score: {this.props.score}</p>
-            <p>Yep, the answer is {options[correctIndex].taxonName}.</p>
+            <p>Yep, the answer is <a target="_blank" rel="noopener noreferrer" href={options[correctIndex].item}>{options[correctIndex].taxonName}</a>.</p>
             <p><button onClick={() => this.onClickNext()} >Next</button></p>
           </div>
         );
