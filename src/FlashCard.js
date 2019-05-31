@@ -1,12 +1,9 @@
 import React from 'react';
 
-const rNumber = (max) => Math.floor(Math.random() * Math.floor(max));
-
 class FlashCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      correctIndex: rNumber(3),
       guessed: Array(3).fill(false),
       gameState: 'playing',
     }
@@ -19,7 +16,7 @@ class FlashCard extends React.Component {
   }
 
   handleOnClick(i) {
-    if (i === this.state.correctIndex) {
+    if (i === this.props.correctIndex) {
       this.setState(state => {
         return {
           gameState: 'next'
@@ -36,7 +33,6 @@ class FlashCard extends React.Component {
   handleAdvanceToNext() {
     this.setState(state => {
       return {
-        correctIndex: rNumber(3),
         guessed: Array(3).fill(false),
         gameState: 'playing'
       };
@@ -46,7 +42,8 @@ class FlashCard extends React.Component {
   }
 
   render() {
-    const { guessed, correctIndex, gameState } = this.state;
+    const { guessed, gameState } = this.state;
+    const { correctIndex } = this.props;
     const options = this.props.multipleChoices;
 
     switch (gameState) {

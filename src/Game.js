@@ -2,12 +2,15 @@ import React from 'react';
 import FlashCard from './FlashCard';
 import datafile from './data.json';
 
+const rNumber = (max) => Math.floor(Math.random() * Math.floor(max));
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
     this.handleAdvanceToNextCard = this.handleAdvanceToNextCard.bind(this);
     this.handleAddPoint = this.handleAddPoint.bind(this);
     this.state = {
+      correctIndex: rNumber(3),
       startSliceAt: 0,
       points: 0,
     }
@@ -17,6 +20,7 @@ class Game extends React.Component {
     this.setState(state => {
       return {
         startSliceAt: state.startSliceAt + 3,
+        correctIndex: rNumber(3),
       };
     });
   }
@@ -42,6 +46,7 @@ class Game extends React.Component {
           advanceToNextCard={this.handleAdvanceToNextCard}
           addPoint={this.handleAddPoint}
           score={score}
+          {...this.state}
         />
       </div>
     );
