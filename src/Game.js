@@ -70,7 +70,7 @@ class Game extends React.Component {
       <div>
         <FlashCard
           advanceToNextCard={this.handleAdvanceToNextCard}
-          handleMakeAGuess={this.handleMakeAGuess}
+          makeAGuess={this.handleMakeAGuess}
           multipleChoices={multipleChoices}
           score={this.calculateScore()}
           {...this.state}
