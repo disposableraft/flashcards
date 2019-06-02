@@ -10,19 +10,9 @@ function FlashCard(props) {
     multipleChoices,
   } = props;
 
-  const backgroundImage = {
-    background: `center / contain url(${multipleChoices[correctIndex].image}?width=500)`,
-    width: '500px',
-    height: '500px',
-  };
-
   const buttonStyle = (index) => {
     return {
       backgroundColor: guessed[index] ? 'red' : null,
-      width: '500px',
-      padding: '0.5em',
-      marginTop: '0.75em',
-      fontSize: '1em',
     }
   };
 
@@ -31,7 +21,7 @@ function FlashCard(props) {
     case 'playing':
       return (
         <div>
-          <div style={backgroundImage} />
+          <ImageCard image={multipleChoices[correctIndex].image} />
           <Button style={buttonStyle(0)} onClick={() => makeAGuess(0)}>{multipleChoices[0].taxonName}</Button>
           <Button style={buttonStyle(1)} onClick={() => makeAGuess(1)}>{multipleChoices[1].taxonName}</Button>
           <Button style={buttonStyle(2)} onClick={() => makeAGuess(2)}>{multipleChoices[2].taxonName}</Button>
@@ -40,7 +30,7 @@ function FlashCard(props) {
     case 'next':
       return (
         <div>
-          <div style={backgroundImage} />
+          <ImageCard image={multipleChoices[correctIndex].image} />
           <p>Score: {props.score}</p>
           <p>Yep, the answer is <a target="_blank" rel="noopener noreferrer" href={multipleChoices[correctIndex].item}>{multipleChoices[correctIndex].taxonName}</a>.</p>
           <p><Button onClick={() => advanceToNextCard()} >Next</Button></p>
@@ -49,6 +39,21 @@ function FlashCard(props) {
     default:
       break;
   }
+}
+
+function ImageCard(props) {
+  const style = {
+    background: `center / contain url(${props.image}?width=500)`,
+    width: '500px',
+    height: '500px',
+  };
+  
+  return (
+    <div style={style}>
+      <h3>Loading animation ... - \ | /</h3>
+      {props.children}
+    </div>
+  );
 }
 
 function Button(props) {
