@@ -16,14 +16,25 @@ function FlashCard(props) {
     height: '500px',
   };
 
+  const buttonStyle = (index) => {
+    return {
+      backgroundColor: guessed[index] ? 'red' : null,
+      width: '500px',
+      padding: '0.5em',
+      marginTop: '0.75em',
+      fontSize: '1em',
+    }
+  };
+
+
   switch (gameState) {
     case 'playing':
       return (
         <div>
           <div style={backgroundImage} />
-          <button style={guessed[0] ? { backgroundColor: 'red' } : null} onClick={() => makeAGuess(0)}>{multipleChoices[0].taxonName}</button>
-          <button style={guessed[1] ? { backgroundColor: 'red' } : null} onClick={() => makeAGuess(1)}>{multipleChoices[1].taxonName}</button>
-          <button style={guessed[2] ? { backgroundColor: 'red' } : null} onClick={() => makeAGuess(2)}>{multipleChoices[2].taxonName}</button>
+          <button style={buttonStyle(0)} onClick={() => makeAGuess(0)}>{multipleChoices[0].taxonName}</button>
+          <button style={buttonStyle(1)} onClick={() => makeAGuess(1)}>{multipleChoices[1].taxonName}</button>
+          <button style={buttonStyle(2)} onClick={() => makeAGuess(2)}>{multipleChoices[2].taxonName}</button>
         </div>
       );
     case 'next':
