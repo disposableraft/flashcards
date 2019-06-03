@@ -4,6 +4,10 @@ import datafile from './data.json';
 
 const rNumber = (max) => Math.floor(Math.random() * Math.floor(max));
 
+function getData() {
+  return datafile.sort(() => Math.random() - 0.5);
+}
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -11,10 +15,11 @@ class Game extends React.Component {
     this.handleMakeAGuess = this.handleMakeAGuess.bind(this);
     this.state = {
       correctIndex: rNumber(3),
-      startSliceAt: 0,
-      points: 0,
+      data: getData(),
       gameState: 'playing',
       guessed: Array(3).fill(false),
+      points: 0,
+      startSliceAt: 0,
     }
   }
 
@@ -61,9 +66,9 @@ class Game extends React.Component {
   }
 
   render() {
-    const { startSliceAt } = this.state;
+    const { data, startSliceAt } = this.state;
 
-    const multipleChoices = datafile.slice(startSliceAt, startSliceAt + 3);
+    const multipleChoices = data.slice(startSliceAt, startSliceAt + 3);
 
     return (
       <div>
