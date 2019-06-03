@@ -10,6 +10,9 @@ function FlashCard(props) {
     multipleChoices,
   } = props;
 
+  const sporeLabel = multipleChoices[correctIndex].sporePrintColorLabel || 'not included';
+  const edibilityLabel = multipleChoices[correctIndex].edibilityLabel || 'not included';
+
 
   switch (gameState) {
     case 'playing':
@@ -20,8 +23,8 @@ function FlashCard(props) {
           </div>
           <div className='col-xs-12 col-md-4'>
             <div className='dataCard'>
-              <p>Spore color: <strong>Foo</strong></p>
-              <p>Edibility: <strong>Bar</strong></p>
+              <p>Spore color: <strong>{sporeLabel}</strong></p>
+              <p>Edibility: <strong>{edibilityLabel}</strong></p>
             </div>
             <div className='multipleChoices'>
               <p><Button guessed={guessed[0]} onClick={() => makeAGuess(0)}>{multipleChoices[0].taxonName}</Button></p>
@@ -39,9 +42,13 @@ function FlashCard(props) {
           </div>
           <div className='col-xs-12 col-md-4'>
             <div className='dataCard'>
-              <p>Score: {props.score}</p>
-              <p>Yep, the answer is <a target="_blank" rel="noopener noreferrer" href={multipleChoices[correctIndex].item}>{multipleChoices[correctIndex].taxonName}</a>.</p>
-              <p><Button onClick={() => advanceToNextCard()} >Next</Button></p>
+              <h4>Score: {props.score}</h4>
+              <h4>
+                <a target="_blank" rel="noopener noreferrer" href={multipleChoices[correctIndex].item}>{multipleChoices[correctIndex].taxonName}</a>
+              </h4>
+              <p>Spore color: <strong>{sporeLabel}</strong></p>
+              <p>Edibility: <strong>{edibilityLabel}</strong></p>
+              <p><Button onClick={() => advanceToNextCard()} >Go to Next</Button></p>
             </div>
           </div>
         </div>
@@ -59,7 +66,7 @@ function ImageCard(props) {
   return (
     <div 
       style={style} 
-      class="imageCard ">
+      className="imageCard ">
       {props.children}
     </div>
   );

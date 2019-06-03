@@ -33,6 +33,10 @@ button {
   margin-bottom: 1em;
 }
 
+.dataCard {
+  margin-bottom: 2em;
+}
+
 .multipleChoices, .dataCard {
   text-align: left;
   margin-left: 0;
