@@ -10,37 +10,39 @@ function FlashCard(props) {
     multipleChoices,
   } = props;
 
-  const buttonStyle = (index) => {
-    return {
-      backgroundColor: guessed[index] ? 'red' : null,
-    }
-  };
-
 
   switch (gameState) {
     case 'playing':
       return (
-        <div className='row'>
-          <div className='col-xs-12 col-md-4'>
+        <div>
+          <div className='col-xs-12 col-md-8'>
             <ImageCard image={multipleChoices[correctIndex].image} />
           </div>
-          <div className='col-xs-12 col-md-8'>
-            <p><Button style={buttonStyle(0)} onClick={() => makeAGuess(0)}>{multipleChoices[0].taxonName}</Button></p>
-            <p><Button style={buttonStyle(1)} onClick={() => makeAGuess(1)}>{multipleChoices[1].taxonName}</Button></p>
-            <p><Button style={buttonStyle(2)} onClick={() => makeAGuess(2)}>{multipleChoices[2].taxonName}</Button></p>
+          <div className='col-xs-12 col-md-4'>
+            <div className='dataCard'>
+              <p>Spore color: <strong>Foo</strong></p>
+              <p>Edibility: <strong>Bar</strong></p>
+            </div>
+            <div className='multipleChoices'>
+              <p><Button guessed={guessed[0]} onClick={() => makeAGuess(0)}>{multipleChoices[0].taxonName}</Button></p>
+              <p><Button guessed={guessed[1]} onClick={() => makeAGuess(1)}>{multipleChoices[1].taxonName}</Button></p>
+              <p><Button guessed={guessed[2]} onClick={() => makeAGuess(2)}>{multipleChoices[2].taxonName}</Button></p>
+            </div>
           </div>
         </div>
       );
     case 'next':
       return (
-        <div className='row'>
-          <div className='col-xs-12 col-md-4'>
+        <div>
+          <div className='col-xs-12 col-md-8'>
             <ImageCard image={multipleChoices[correctIndex].image} />
           </div>
-          <div className='col-xs-12 col-md-8'>
-            <p>Score: {props.score}</p>
-            <p>Yep, the answer is <a target="_blank" rel="noopener noreferrer" href={multipleChoices[correctIndex].item}>{multipleChoices[correctIndex].taxonName}</a>.</p>
-            <p><Button onClick={() => advanceToNextCard()} >Next</Button></p>
+          <div className='col-xs-12 col-md-4'>
+            <div className='dataCard'>
+              <p>Score: {props.score}</p>
+              <p>Yep, the answer is <a target="_blank" rel="noopener noreferrer" href={multipleChoices[correctIndex].item}>{multipleChoices[correctIndex].taxonName}</a>.</p>
+              <p><Button onClick={() => advanceToNextCard()} >Next</Button></p>
+            </div>
           </div>
         </div>
       );
@@ -52,31 +54,26 @@ function FlashCard(props) {
 function ImageCard(props) {
   const style = {
     background: `center / contain url(${props.image}?width=500)`,
-    width: '100%',
-    height: '500px',
   };
   
   return (
-    <div style={style}>
-      <h3>Loading animation ... - \ | /</h3>
+    <div 
+      style={style} 
+      class="imageCard ">
       {props.children}
     </div>
   );
 }
 
 function Button(props) {
-  const style = {
-    width: '100%',
-    maxWidth: '500px',
-  }
-  
-  Object.assign(style, props.style);
+  const incorrectGuess = props.guessed ? 'btn-danger' : 'btn-default';
   
   return (
     <button
-      style={style}
+      style={props.style}
       onClick={props.onClick}
-      className='btn btn-default'>
+      className={`btn ${incorrectGuess}`}
+      >
       {props.children}
     </button>
   );
