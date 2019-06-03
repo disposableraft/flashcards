@@ -65,9 +65,16 @@ function ImageCard(props) {
 }
 
 function Button(props) {
+  const style = {
+    width: '100%',
+    maxWidth: '500px',
+  }
+  
+  Object.assign(style, props.style);
+  
   return (
     <button
-      style={props.style}
+      style={style}
       onClick={props.onClick}
       className='btn btn-default'>
       {props.children}
