@@ -35,7 +35,8 @@ class Game extends React.Component {
       this.addPoint();
     } else {
       this.setState(state => {
-        return state.guessed[index] = true;
+        state.guessed[index] = true;
+        return state;
       });
     }
   }
@@ -71,7 +72,7 @@ class Game extends React.Component {
     const multipleChoices = data.slice(startSliceAt, startSliceAt + 3);
 
     return (
-      <div>
+      <div class='FlashCard'>
         <FlashCard
           advanceToNextCard={this.handleAdvanceToNextCard}
           makeAGuess={this.handleMakeAGuess}
