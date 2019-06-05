@@ -72,7 +72,7 @@ class Game extends React.Component {
     const multipleChoices = data.slice(startSliceAt, startSliceAt + 3);
 
     return (
-      <div class='Game'>
+      <div className='Game'>
         <FlashCard
           advanceToNextCard={this.handleAdvanceToNextCard}
           makeAGuess={this.handleMakeAGuess}
