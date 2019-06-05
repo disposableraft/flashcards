@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from './Button';
 
 function FlashCard(props) {
   const {
@@ -68,20 +69,6 @@ function ImageCard(props) {
       className="imageCard ">
       {props.children}
     </div>
-  );
-}
-
-function Button(props) {
-  const incorrectGuess = props.guessed ? 'btn-danger' : 'btn-default';
-  
-  return (
-    <button
-      style={props.style}
-      onClick={props.onClick}
-      className={`btn ${incorrectGuess}`}
-      >
-      {props.children}
-    </button>
   );
 }
 
