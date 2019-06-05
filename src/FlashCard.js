@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './Button';
+import ImageCard from './ImageCard';
 
 function FlashCard(props) {
   const {
@@ -56,20 +57,6 @@ function FlashCard(props) {
     default:
       break;
   }
-}
-
-function ImageCard(props) {
-  const style = {
-    background: `center / contain url(${props.image}?width=500)`,
-  };
-  
-  return (
-    <div 
-      style={style} 
-      className="imageCard ">
-      {props.children}
-    </div>
-  );
 }
 
 export default FlashCard;
