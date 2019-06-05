@@ -13,11 +13,10 @@ function FlashCard(props) {
   const sporeLabel = multipleChoices[correctIndex].sporePrintColorLabel || 'not included';
   const edibilityLabel = multipleChoices[correctIndex].edibilityLabel || 'not included';
 
-
   switch (gameState) {
     case 'playing':
       return (
-        <div>
+        <div className='flashCard playing'>
           <div className='col-xs-12 col-md-8'>
             <ImageCard image={multipleChoices[correctIndex].image} />
           </div>
@@ -36,7 +35,7 @@ function FlashCard(props) {
       );
     case 'next':
       return (
-        <div>
+        <div className='flashCard next'>
           <div className='col-xs-12 col-md-8'>
             <ImageCard image={multipleChoices[correctIndex].image} />
           </div>
