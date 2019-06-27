@@ -1,11 +1,11 @@
 import React from 'react';
-import FlashCard from './FlashCard';
-import datafile from './data.json';
+import Mushrooms from './Decks/Mushrooms';
+import data from './data/mushroom-game.json';
 
 const rNumber = (max) => Math.floor(Math.random() * Math.floor(max));
 
 function getData() {
-  return datafile.sort(() => Math.random() - 0.5);
+  return data.sort(() => Math.random() - 0.5);
 }
 
 class Game extends React.Component {
@@ -73,7 +73,7 @@ class Game extends React.Component {
 
     return (
       <div className='Game'>
-        <FlashCard
+        <Mushrooms
           advanceToNextCard={this.handleAdvanceToNextCard}
           makeAGuess={this.handleMakeAGuess}
           multipleChoices={multipleChoices}

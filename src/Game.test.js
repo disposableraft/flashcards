@@ -5,12 +5,12 @@ import Game from './Game';
 
 configure({ adapter: new Adapter() });
 
-jest.mock('./data.json');
+jest.mock('./data/mushroom-game.json');
 
 describe('<Game />', () => {
-  it('Should render FlashCard', () => {
+  it('Should render <Mushrooms />', () => {
     const wrapper = shallow(<Game />);
-    expect(wrapper.text()).toBe('<FlashCard />');
+    expect(wrapper.text()).toBe('<Mushrooms />');
   });
 
   it('Should set state.correctIndex to number between 0 and 2', () => {
