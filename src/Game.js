@@ -1,12 +1,8 @@
 import React from 'react';
 import Mushrooms from './Decks/Mushrooms';
-import data from './data/mushroom-game.json';
+import PsychVocab from './Decks/PsychVocab';
 
 const rNumber = (max) => Math.floor(Math.random() * Math.floor(max));
-
-function getData() {
-  return data.sort(() => Math.random() - 0.5);
-}
 
 class Game extends React.Component {
   constructor(props) {
@@ -15,12 +11,16 @@ class Game extends React.Component {
     this.handleMakeAGuess = this.handleMakeAGuess.bind(this);
     this.state = {
       correctIndex: rNumber(3),
-      data: getData(),
+      data: this.randomizeData(this.props.data),
       gameState: 'playing',
       guessed: Array(3).fill(false),
       points: 0,
       startSliceAt: 0,
     }
+  }
+
+  randomizeData(data) {
+    return data.sort(() => Math.random() - 0.5);
   }
 
   haveTheyGuessed() {
@@ -67,21 +67,43 @@ class Game extends React.Component {
   }
 
   render() {
-    const { data, startSliceAt } = this.state;
+    const {
+      data,
+      startSliceAt
+    } = this.state;
 
     const multipleChoices = data.slice(startSliceAt, startSliceAt + 3);
 
-    return (
-      <div className='Game'>
-        <Mushrooms
-          advanceToNextCard={this.handleAdvanceToNextCard}
-          makeAGuess={this.handleMakeAGuess}
-          multipleChoices={multipleChoices}
-          score={this.calculateScore()}
-          {...this.state}
-        />
-      </div>
-    );
+    switch (this.props.game) {
+      case 'psych':
+        return (
+          <div className='Game'>
+            <PsychVocab
+              advanceToNextCard={this.handleAdvanceToNextCard}
+              makeAGuess={this.handleMakeAGuess}
+              multipleChoices={multipleChoices}
+              score={this.calculateScore()}
+              {...this.state}
+            />
+          </div>
+        );
+
+      case 'mushrooms':
+        return (
+          <div className='Game'>
+            <Mushrooms
+              advanceToNextCard={this.handleAdvanceToNextCard}
+              makeAGuess={this.handleMakeAGuess}
+              multipleChoices={multipleChoices}
+              score={this.calculateScore()}
+              {...this.state}
+            />
+          </div>
+        );
+
+      default:
+          return null;
+    }
   }
 }
 

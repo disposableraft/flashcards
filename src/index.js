@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Game from './Game';
+import Welcome from './Welcome.js';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<Game />, document.getElementById('root'));
+ReactDOM.render(<Welcome />, document.getElementById('root'));
 
 serviceWorker.unregister();
