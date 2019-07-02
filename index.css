@@ -3,6 +3,7 @@ body {
   padding: 0;
   margin: 0 auto;
   border: 2px solid dimgray;
+  font-size: 16px;
 }
 
 button {
@@ -37,6 +38,18 @@ button {
   margin-bottom: 2em;
 }
 
+p.definition {
+  margin-bottom: 1em;
+}
+
+p.definition:hover {
+  color: black;
+  cursor: help;
+}
+p.definition > s {
+  color: #777;
+}
+
 .multipleChoices, .dataCard {
   text-align: left;
   margin-left: 0;
@@ -46,3 +59,10 @@ button {
   margin: 0.75em 0 2em 0;
 }
 
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
