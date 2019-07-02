@@ -19,7 +19,7 @@ describe('<Game />', () => {
     expect(wrapper.state().correctIndex).toBeLessThanOrEqual(2);
   });
 
-  it('Should set state for data', () => {
+  xit('Should set state for data', () => {
     const wrapper = shallow(<Game />);
     expect(wrapper.state().data).toHaveLength(6);
   });
