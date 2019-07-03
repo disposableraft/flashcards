@@ -71,10 +71,10 @@ describe('<Game />', () => {
     // Winning round
     wrapper.instance().addPoint();
     const firstScore = wrapper.instance().calculateScore();
-    expect(firstScore).toBe('1 / 1');
+    expect(firstScore).toBe('1 / 6');
     // Losing round
     wrapper.instance().handleAdvanceToNextCard();
     const secondScore = wrapper.instance().calculateScore();
-    expect(secondScore).toBe('1 / 2');
+    expect(secondScore).toBe('1 / 6');
   });
 });

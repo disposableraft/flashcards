@@ -10,6 +10,8 @@ function Mushrooms(props) {
     guessed,
     makeAGuess,
     multipleChoices,
+    questionNumber,
+    score,
   } = props;
 
   const sporeLabel = multipleChoices[correctIndex].sporePrintColorLabel || 'not included';
@@ -20,6 +22,7 @@ function Mushrooms(props) {
       return (
         <div className='flashCard playing'>
           <div className='col-xs-12 col-md-8'>
+          <ScoreHeader score={score} questionNumber={questionNumber} />
             <ImageCard image={multipleChoices[correctIndex].image} />
           </div>
           <div className='col-xs-12 col-md-4'>
@@ -39,6 +42,7 @@ function Mushrooms(props) {
       return (
         <div className='flashCard next'>
           <div className='col-xs-12 col-md-8'>
+          <ScoreHeader score={score} questionNumber={questionNumber} />
             <ImageCard image={multipleChoices[correctIndex].image} />
           </div>
           <div className='col-xs-12 col-md-4'>
@@ -57,6 +61,23 @@ function Mushrooms(props) {
     default:
       break;
   }
+}
+
+function ScoreHeader(props) {
+  return (
+    <div className='row'>
+      <div className='col-xs-6 left'>
+        <h4>
+          Question {props.questionNumber}
+        </h4>
+      </div>
+      <div className='col-xs-6 right'>
+        <h4>
+          {props.score}
+        </h4>
+      </div>
+    </div>
+  );
 }
 
 export default Mushrooms;
