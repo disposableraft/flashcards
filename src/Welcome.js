@@ -1,6 +1,7 @@
 import React from 'react';
 import Game from './Game';
 // TODO: Load data on demand
+// TODO: Allow viewer to navigate between games
 import psychData from './data/psych-vocab.js';
 import mushroomData from './data/mushroom-game.json';
 
