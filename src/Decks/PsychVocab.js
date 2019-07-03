@@ -10,6 +10,7 @@ function PsychVocab(props) {
     guessed,
     makeAGuess,
     multipleChoices,
+    questionNumber,
   } = props;
 
   switch (gameState) {
@@ -18,7 +19,7 @@ function PsychVocab(props) {
         <div className='col-xs-12'>
           <h4 className='score right'>Score: {props.score}</h4>
           <h1 className='term left'>
-            <mark>{multipleChoices[correctIndex].term}</mark>
+            {questionNumber}: <mark>{multipleChoices[correctIndex].term}</mark>
           </h1>
 
           <div className='definitions left'>
@@ -42,7 +43,7 @@ function PsychVocab(props) {
         <div className='dataCard col-xs-12 left'>
           <h4 className='right'>Score: {props.score}</h4>
           <h1>
-            <mark>{multipleChoices[correctIndex].term}</mark>
+          {questionNumber}: <mark>{multipleChoices[correctIndex].term}</mark>
           </h1>
           <p>{multipleChoices[correctIndex].definition}</p>
           <p className='next right'><Button onClick={() => advanceToNextCard()} >Go to Next</Button></p>

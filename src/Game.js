@@ -15,6 +15,7 @@ class Game extends React.Component {
       gameState: 'playing',
       guessed: Array(3).fill(false),
       points: 0,
+      questionNumber: 1,
       startSliceAt: 0,
     }
   }
@@ -48,6 +49,7 @@ class Game extends React.Component {
         correctIndex: rNumber(3),
         gameState: 'playing',
         guessed: Array(3).fill(false),
+        questionNumber: state.questionNumber + 1,
       };
     });
   }
@@ -63,7 +65,8 @@ class Game extends React.Component {
   }
 
   calculateScore() {
-    return `${this.state.points} / ${(this.state.startSliceAt / 3) + 1}`;
+    const { data, points, startSliceAt } = this.state;
+    return `${points} / ${data.length}`;
   }
 
   render() {
